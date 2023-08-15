@@ -92,6 +92,44 @@ fi
 #
 ###############################################################################################################################################
 #
+# ChoicePathCheck Function
+#
+ChoicePathCheck(){
+#
+if [ -d "$WaitingRoomFolder" ]
+	then	
+		/bin/echo 'Folder "'$WaitingRoomFolder'" exists'
+		/bin/echo 'Continuing'
+	else 
+		/bin/echo 'Folder "'$WaitingRoomFolder'" does not exist'
+        /bin/echo 'Checking full path'
+		/bin/echo # Outputting a Blank Line for Reporting Purposes
+		#
+		if [ -d "/Library/Application Support/JAMF" ]
+			then	
+				/bin/echo 'Folder "/Library/Application Support/JAMF" exists'
+				/bin/echo 'Continuing'
+			else 
+				/bin/echo 'Folder "/Library/Application Support/JAMF" does not exist'
+				/bin/echo 'Creating it'
+				mkdir "/Library/Application Support/JAMF"
+		fi
+		/bin/echo # Outputting a Blank Line for Reporting Purposes
+		if [ -d "/Library/Application Support/JAMF/Waiting Room" ]
+			then	
+				/bin/echo 'Folder "/Library/Application Support/JAMF/Waiting Room" exists'
+				/bin/echo 'Continuing'
+			else 
+				/bin/echo 'Folder "/Library/Application Support/JAMF/Waiting Room" does not exist'
+				/bin/echo 'Creating it'
+				mkdir "/Library/Application Support/JAMF/Waiting Room"
+			fi
+fi
+#
+}
+#
+###############################################################################################################################################
+#
 # ChoiceFile Function
 #
 ReWriteChoiceFile(){
@@ -236,6 +274,9 @@ SectionEnd
 Var2Check='umbrellaEnabled'
 VarValue=$umbrellaEnabled
 VarCheck
+SectionEnd
+#
+ChoicePathCheck
 SectionEnd
 #
 ReWriteChoiceFile
